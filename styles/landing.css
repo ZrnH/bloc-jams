@@ -47,6 +47,13 @@ body.landing{
   -moz-transition-delay: .2s;
   transition-delay: .2s;
 }
+.point:hover{
+  transition-property: background-color;
+  transition-timing-function: ease-in;
+  background-color: grey;
+  font-style: italic;
+}
+
 
 .point .point-title{
   font-size:1.25rem;
