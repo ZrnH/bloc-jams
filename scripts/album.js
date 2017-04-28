@@ -28,6 +28,21 @@ var albumMarconi = {
   ]
 };
 
+var otherAlbum = {
+  title: 'another name',
+  artist: 'some they',
+  label: 'EM',
+  year: '1909',
+  albumArtUrl: 'assets/images/album_covers/09.png',
+  songs: [
+    { title: 'a song ?', duration: '1:01' },
+    { title: 'hot in here', duration: '5:01' },
+    { title: 'dancing queen', duration: '3:21' },
+    { title: 'hood politics?', duration: '3:14' },
+    { title: 'amal hayati', duration: '2:15' }
+  ]
+};
+
 var createSongRow = function(songNumber, songName, songLength){
   var template =
       '<tr class="album-view-song-item">'
@@ -63,3 +78,23 @@ var setCurrentAlbum = function(album){
 window.onload = function(){
     setCurrentAlbum(albumPicasso);
 };
+
+//define event listener and specify function to return. needs to be setCurrentAlbum
+//setCurrentAlbum should loop through albums based on a count. for example, set a value for each album
+//if count is divisible by 2, should return same album. if divisible by 3, return next album, if neither, return other album.
+// count needs to start at 1 maybe?
+//define function that will be tied to event listener
+var count = 1;
+document.getElementsByClassName('album-cover-art')[0].addEventListener("click", function(){
+       count++;
+       if ( count% 3 === 0){
+         setCurrentAlbum(otherAlbum);
+       }
+       else if( count%2 ===0){
+         setCurrentAlbum(albumMarconi);
+       }
+       else {
+         setCurrentAlbum(albumPicasso);
+       }
+
+} );
