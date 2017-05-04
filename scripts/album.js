@@ -61,27 +61,38 @@ var setCurrentAlbum = function(album){
 };
 
 // // define function and pass parameters of starting element and name to search for
-// function findParentByClassName (el , name){
-//   //while the provided element has a parent
-//   while(el.parentNode){
-//     //change your element variable to be the parent of the previous "el" element
-//     el = el.parentNode;
-//     // if the name of this element matches the provided name return it, otherwise jump to the next parent
-//     if (el.className === name){
-//       return el;
-//     }
-//   }
-// };
-
-var findParentByClassName = function(element, targetClass) {
-    if (element) {
-        var currentParent = element.parentElement;
-        while (currentParent.className !== targetClass && currentParent.className !== null) {
-            currentParent = currentParent.parentElement;
-        }
-        return currentParent;
+function findParentByClassName (el , name){
+  //while the provided element has a parent
+  while(el.parentElement){
+    //change your element variable to be the parent of the previous "el" element
+    el = el.parentElement;
+    // if the name of this element matches the provided name return it, otherwise jump to the next parent
+    if (el.className === name){
+      return el;
     }
+    else{
+      return console.log('No parent found with that class name');
+    }
+
+  }
+// checks for parent. if the first element has no parent, the while loop should
+// never fire and this line-height should execute.
+  if (!el.parentElement){
+    console.log('No parent found');
+  }
 };
+
+
+//  ---- bloc provided function ---
+// var findParentByClassName = function(element, targetClass) {
+//     if (element) {
+//         var currentParent = element.parentElement;
+//         while (currentParent.className !== targetClass && currentParent.className !== null) {
+//             currentParent = currentParent.parentElement;
+//         }
+//         return currentParent;
+//     }
+// };
 
 var getSongItem = function(element) {
     switch (element.className) {
