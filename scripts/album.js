@@ -7,11 +7,14 @@ var createSongRow = function(songNumber, songName, songLength){
   + '</tr>'
   ;
 
+
+var globalSongNumber; 
 var getSongNumberCell = function(number){
     return $('.song-item-number[data-song-number="' + number + '"]');
 };
 
   var $row = $(template);
+
 
   var clickHandler = function() {
       var songNumber = parseInt($(this).attr('data-song-number'));
@@ -44,6 +47,8 @@ var getSongNumberCell = function(number){
           $('.main-controls .play-pause').html(playerBarPlayButton);
         }
       }
+       
+      
   };
 
   var onHover = function(event) {
@@ -70,6 +75,8 @@ var getSongNumberCell = function(number){
   return $row;
 
 };
+
+var $playBarButtons = $('.main-controls .play-pause');
 
 var setCurrentAlbum = function(album){
   currentAlbum = album;
@@ -172,6 +179,24 @@ var updatePlayerBarSong = function(){
 
 };
 
+var togglePlayFromPlayerBar = function (){
+    console.log(currentlyPlayingSongNumber);
+    if( currentSoundFile.isPaused()){
+        $(this).html(pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+        // this was my attempt to change the song number to an icon, but i'm getting an error that getSongNumberCell is undefined
+        // var $currentlyPlayingSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+        // $currentlyPlayingSongNumberCell.html(pauseButtonTemplate)
+        currentSoundFile.play();
+    }
+    else if ( currentSoundFile ) {
+        $(this).html(playButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPlayButton);
+        //update cell number to play button
+        currentSoundFile.pause(); 
+    }
+};
+
 // // define function and pass parameters of starting element and name to search for
 // function findParentByClassName (el , name){
 //   //while the provided element has a parent
@@ -203,5 +228,6 @@ $(document).ready(function(){
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playBarButtons.click(togglePlayFromPlayerBar);
     // this doesn't work in firefox
 });
