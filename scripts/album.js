@@ -3,7 +3,7 @@ var createSongRow = function(songNumber, songName, songLength){
       '<tr class="album-view-song-item">'
     +   '<td class="song-item-number" data-song-number=" ' +songNumber + ' ">' +songNumber+'</td>'
     +   '<td class="song-item-title">'+songName+'</td>'
-    +   '<td class="song-item-duration">'+songLength+'</td>'
+    +   '<td class="song-item-duration">'+filterTimeCode(songLength)+'</td>'
   + '</tr>'
   ;
 
@@ -108,8 +108,9 @@ var updateSeekBarWhileSongPlays = function(){
       currentSoundFile.bind('timeupdate',function(event){
           var seekBarFillRatio = this.getTime() / this.getDuration();
           var $seekBar = $('.seek-control .seek-bar');
-
+          //console.log(this.getTime());
           updateSeekPercentage($seekBar, seekBarFillRatio);
+          setCurrentTimeInPlayerBar(this.getTime());
       });
     }
 };
@@ -153,8 +154,9 @@ var setupSeekBars = function(){
           if ($(this).parent().attr('class') == 'seek-control'){
               seek(seekBarFillRatio * currentSoundFile.getDuration());
           } else {
+            console.log(seekBarFillRatio);
               setVolume(seekBarFillRatio * 100);
-      }
+          }
 
           updateSeekPercentage($seekBar, seekBarFillRatio);
       });
@@ -164,6 +166,18 @@ var setupSeekBars = function(){
           $(document).unbind('mouseup.thumb');
       });
   });
+};
+
+var setCurrentTimeInPlayerBar = function(currentTime){
+    var $currentTime = $('.current-time');
+
+    $currentTime.text(filterTimeCode(currentTime));
+};
+
+var setTotalTimeInPlayerBar = function(totalTime){
+    var $totalTime = $('.total-time');
+
+    $totalTime.text(totalTime);
 };
 
 var trackIndex = function(album, song){
@@ -248,7 +262,12 @@ var updatePlayerBarSong = function(){
     $('.currently-playing .artistName').text(currentAlbum.artist);
     $('currently-playing .artist-song-mobile').text(currentSongFromAlbum.title +' - ' + currentAlbum.artist);
     $('.main-controls .play-pause').html(playerBarPauseButton);
+    setTotalTimeInPlayerBar(filterTimeCode(currentSongFromAlbum.duration));
 
+};
+
+var filterTimeCode = function(timeInSeconds){
+    return buzz.toTimer(timeInSeconds);
 };
 
 // // define function and pass parameters of starting element and name to search for
